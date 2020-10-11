@@ -4,7 +4,7 @@ import com.debt_brew.backend.models.User;
 import com.debt_brew.backend.repositories.UserRepository;
 import com.debt_brew.backend.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,6 +34,7 @@ public class UserController {
         if (userRepo.findUserByUsername(newUser.username) == null) {
             userDetailsService.Save(newUser);
             System.out.println("new user created " + newUser);
+            System.out.println(newUser);
             return ResponseEntity.ok(userRepo.findUserByUsername(newUser.username));
         }
         return ResponseEntity.status(400).body("not valid signup info");
