@@ -3,13 +3,13 @@ package com.debt_brew.backend.controllers;
 import com.debt_brew.backend.models.User;
 import com.debt_brew.backend.repositories.UserRepository;
 import com.debt_brew.backend.services.MyUserDetailsService;
-
-import org.omg.CORBA.UserException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +30,7 @@ public class UserController {
 
     // Register
     @PostMapping("/registration")
-    ResponseEntity<?> register(@RequestBody User newUser) throws UserException {
+    ResponseEntity<?> register(@RequestBody User newUser) throws UsernameNotFoundException {
         if (userRepo.findUserByUsername(newUser.username) == null) {
             userDetailsService.Save(newUser);
             System.out.println("new user created " + newUser);
