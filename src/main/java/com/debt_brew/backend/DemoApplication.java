@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = { "com.debt_brew.controllers", "com.debt_brew.services" })
+@ComponentScan(basePackages = { "com.debt_brew.controllers", "com.debt_brew.services", "com.debt_brew.security" })
 @SpringBootApplication
 public class DemoApplication {
 
