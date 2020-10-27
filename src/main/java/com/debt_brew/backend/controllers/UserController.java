@@ -1,5 +1,7 @@
 package com.debt_brew.backend.controllers;
 
+import java.util.List;
+
 import com.debt_brew.backend.models.User;
 import com.debt_brew.backend.repositories.UserRepository;
 import com.debt_brew.backend.services.MyUserDetailsService;
@@ -7,17 +9,14 @@ import com.debt_brew.backend.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
-// import org.springframework.security.authentication.BadCredentialsException;
-// import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-// import org.springframework.security.core.userdetails.UserDetails;
-// import org.springframework.security.core.userdetails.UsernameNotFoundException;
-// import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RequestMethod;
+
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -32,7 +31,8 @@ public class UserController {
     // Register
     @PostMapping("/newuser")
     public ResponseEntity<?> register(@RequestBody User newUser) {
-        // will take in Username and password  and search repository, if none found then a new one will be saved to the database.
+        // will take in Username and password and search repository, if none found then
+        // a new one will be saved to the database.
 
         if (userRepo.findUserByUsername(newUser.username) == null) {
             userDetailsService.Save(newUser);
@@ -42,9 +42,14 @@ public class UserController {
             System.out.println("not able to register existing username");
             return ResponseEntity.status(400).body("not valid signup");
         }
-        
-            
-    } 
+
+    }
+
+    @GetMapping("/get")
+    public List<User> getAllUsers(@RequestParam User user) {
+        return userRepo.findAll();
+    }
+    
 
     // // Login
     // @RequestMapping(value = "login", method = RequestMethod.POST)

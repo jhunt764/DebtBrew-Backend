@@ -11,7 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
@@ -27,20 +29,21 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities());
-        }
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+                getAuthorities());
+    }
 
-        private List<SimpleGrantedAuthority> getAuthorities() {
-            List<SimpleGrantedAuthority> authList = new ArrayList<>();
-            authList.add(new SimpleGrantedAuthority("ROLE_USER"));
-            return authList;
-        }
+    private List<SimpleGrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> authList = new ArrayList<>();
+        authList.add(new SimpleGrantedAuthority("ROLE_USER"));
+        return authList;
+    }
 
-        public UserDetails Save(User newUser) {
-            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-            User savedUser = userRepo.save(newUser);
-            return new org.springframework.security.core.userdetails.User(savedUser.getUsername(),
-                    savedUser.getPassword(), getAuthorities());
-		}
-    
+    public UserDetails Save(User newUser) {
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        User savedUser = userRepo.save(newUser);
+        return new org.springframework.security.core.userdetails.User(savedUser.getUsername(), savedUser.getPassword(),
+                getAuthorities());
+    }
+
 }
